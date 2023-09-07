@@ -15,6 +15,7 @@ public class PrinterControllerAppl {
 		 //main thread moves to waiting for finishing printer1
 		printer2.join();//main thread moves to waiting for finishing printer2
 		                //in the case printer2 has already finished the main thread doesn't wait
+	
 		System.out.printf("running time is %dMs \n",
 				ChronoUnit.MILLIS.between(start, Instant.now()));
 

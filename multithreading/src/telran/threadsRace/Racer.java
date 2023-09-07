@@ -21,7 +21,7 @@ public class Racer extends Thread {
 	@Override
 	public void run() {
 
-		for(int i = 0; i < distance && Race.winner == null; i++) {
+		for(int i = 0; i < distance && Race.atomicReferenceWinner.get() == null; i++) {
 			printer.accept(name);
 			try {
 				sleep(new Random().nextInt(MIN_TIME_SLEEP, MAX_TIME_SLEEP));
@@ -29,8 +29,8 @@ public class Racer extends Thread {
 
 			}
 		} 
-		if(Race.winner == null) {
-			Race.winner = this;
+		Race.atomicReferenceWinner.compareAndSet(null, this);
+		if(Race.atomicReferenceWinner.get() == this) {
 			printer.accept(String.format("Congratulations to thread %s", name));
 		}
 	}

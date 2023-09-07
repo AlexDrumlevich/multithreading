@@ -1,5 +1,6 @@
 package telran.threadsRace;
 
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
@@ -7,7 +8,7 @@ import telran.view.InputOutput;
 
 public class Race {
 
-	static Racer winner = null;
+	static AtomicReference<Racer> atomicReferenceWinner = new AtomicReference<>(); 
 	
 	private Racer[] racers;
 	
@@ -35,6 +36,6 @@ public class Race {
 				e.printStackTrace();
 			}
 		}
-		winner = null;
+		atomicReferenceWinner.set(null);
 	}
 }
