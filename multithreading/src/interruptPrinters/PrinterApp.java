@@ -1,6 +1,5 @@
 package interruptPrinters;
 
-import java.util.stream.IntStream;
 
 public class PrinterApp {
 	final private static int N_PRINTERS = 6;
@@ -9,20 +8,15 @@ public class PrinterApp {
 	
 	
 	public static void main(String[] args) {
-		Printer[] printers;
-		
-			printers = IntStream
-					.range(1, N_PRINTERS + 1)
-					.mapToObj(n -> new Printer(String.valueOf(n), N_PORTION, N_NUMBERS / N_PORTION))
-					.peek(printer -> {
-						printer.start();
-					})
-					.toArray(Printer[]::new);
-	
-	for(int i = 0; i < printers.length; i++) {
-		printers[i].nextPrinter = i == printers.length - 1 ? printers[0] : printers[i + 1];
+		Printer[] printers = new Printer[N_PRINTERS];
+		printers[0] = new Printer(String.valueOf(1), N_PORTION, N_NUMBERS / N_PORTION);
+		for(int i = 1; i < printers.length; i++){
+			printers[i] = new Printer(String.valueOf(i + 1), N_PORTION, N_NUMBERS / N_PORTION);
+			printers[i-1].nextPrinter = printers[i];
+			printers[i-1].start();
+		}
+		printers[printers.length-1].nextPrinter = printers[0];
+		printers[printers.length-1].start();
+		printers[0].interrupt();
 	}
-	printers[0].interrupt();
-	}
-	
 }

@@ -11,22 +11,24 @@ public class Printer extends Thread {
 		this.threadName = threadName;
 		this.nPortion = nPortion;
 		this.nPortions = nPortions;
+		
 	}
 	
 	@Override
 	public void run() {
-		
-		for (int i = 0; i < nPortions; i++) {
+		int countDonePortions = 0;
+		while (countDonePortions < nPortions) {
 			try {
 				join();
 			} catch (InterruptedException e) {
+				for (int j = 0; j < nPortion; j++) {
+					System.out.print(threadName);
+				}
+				System.out.println();
+				nextPrinter.interrupt();
+				countDonePortions ++;
+			}
 			
-			}
-			for (int j = 0; j < nPortion; j++) {
-				System.out.print(threadName);
-			}
-			System.out.println();
-			nextPrinter.interrupt();
 		}
 	}
 }
