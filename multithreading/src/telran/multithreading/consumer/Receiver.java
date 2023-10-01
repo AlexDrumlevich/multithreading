@@ -14,7 +14,11 @@ public class Receiver extends Thread {
 		while(true) {//FIXME
 			try {
 				String message = messageBox.get();
-				System.out.printf("Thread %d has got message: %s\n", threadId(), message);
+				if((threadId() % 2) - Integer.valueOf((message.charAt(message.length() - 1)) % 2) != 0) {
+					messageBox.put(message);
+				} else {
+					System.out.printf("Thread %d has got message: %s\n", threadId(), message);
+				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
