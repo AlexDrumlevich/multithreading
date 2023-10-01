@@ -6,7 +6,7 @@ public class Receiver extends Thread {
 	private MessageBox messageBox;
 
 	public Receiver(MessageBox messageBox) {
-		setDaemon(true); //FIXME
+		//setDaemon(true); //FIXME
 		this.messageBox = messageBox;
 	}
 	@Override
