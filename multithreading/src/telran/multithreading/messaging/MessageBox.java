@@ -14,7 +14,6 @@ public class MessageBox {
 			this.message = message;
 			//notify about new message
 			this.notify();
-			Thread.currentThread().sleep(1000);
 			System.out.println("Senred is leving synchronized section");
 	}
 	
@@ -30,7 +29,7 @@ public class MessageBox {
 		message = null;
 		//notify  about getting a message => producer can put new message into 
 		//message property
-		this.notify();
+		this.notifyAll();
 		System.out.println("Receiver is almost left N" + Thread.currentThread().threadId());
 		return res;
 	}
