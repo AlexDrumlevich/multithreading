@@ -1,16 +1,13 @@
-package telran.multithreading;
+package telran.myBlockingQueue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import telran.multithreading.consumer.Receiver;
-import telran.multithreading.messaging.MessageBox;
-import telran.multithreading.producer.Sender;
 
 public class SenderReceiverAppl {
 
-	private static final int N_MESSAGES = 10;
+	private static final int N_MESSAGES = 30;
 	private static final int N_RECEIVERS = 10;
 	private static List<Receiver> receivers = new ArrayList<>();
 	private static MessageBox messageBox;
@@ -41,7 +38,6 @@ public class SenderReceiverAppl {
 	}
 	
 	private static void stopReceivers() {
-		while (messageBox.take() != null) {}
 		receivers.forEach(receiver -> receiver.interrupt());
 	}
 
