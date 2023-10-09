@@ -11,20 +11,23 @@ public class SenderReceiverAppl {
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		MessageBox messageBox = new MessageBox();
-		startReceivers(messageBox);
-		
-		Sender sender = new Sender(messageBox, N_MESSAGES);
+		MessageBox messageBoxOdd = new MessageBox();
+		MessageBox messageBoxEven = new MessageBox();
+		Sender sender = new Sender(messageBoxOdd, messageBoxEven, N_MESSAGES);
 		sender.start();
 		
-		Thread.sleep(10000);
+		startReceivers(messageBoxOdd, messageBoxEven);
 	}
 
 	
 
-	private static void startReceivers(MessageBox messageBox) {
+	private static void startReceivers(MessageBox messageBoxOdd, MessageBox messageBoxEven) {
 		for(int i = 0; i < N_RECEIVERS; i++) {
-			new Receiver(messageBox).start();
+			Receiver receiver = new Receiver();
+			MessageBox messageBox = receiver.threadId() % 2 == 0 ?
+					messageBoxOdd : messageBoxEven;
+			receiver.setMessageBox(messageBox);
+			receiver.start();
 		}
 		
 	}
