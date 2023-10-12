@@ -81,8 +81,11 @@ public class MyLinkedBlockingQueue<E> implements MyBlockingQueue<E> {
 	public boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException {
 		try {
 			lock.lock();
-			if(list.size() == limit) {
-				additingCondition.await(timeout, unit);
+			
+			while(list.size() == limit) {
+				if(!additingCondition.await(timeout, unit)) {
+					return false;
+				}
 			}
 			return offer(e);
 		} finally {
@@ -142,8 +145,10 @@ public class MyLinkedBlockingQueue<E> implements MyBlockingQueue<E> {
 	public E poll(long timeout, TimeUnit unit) throws InterruptedException {
 		try {
 			lock.lock();
-			if(list.isEmpty()) {
-				removingCondition.await(timeout, unit);
+			while(list.isEmpty()) {
+				if(!removingCondition.await(timeout, unit))  {
+					return null;
+				};
 			}
 			return poll();
 		} finally {
